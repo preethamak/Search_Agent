@@ -1,0 +1,11 @@
+langchain 
+wikipedia 
+langchain-community 
+langchain-openai
+langchain-anthropic
+python-dotenv
+pydantic
+duckduckgo-search
+
+#open ai = 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
+#anthropic = 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
