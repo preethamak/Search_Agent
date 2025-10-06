@@ -7,32 +7,27 @@ from langchain_core.output_parsers import PydanticOutputParser
 from langchain.agents import create_tool_calling_agent, AgentExecutor
 from tools import search_tool, wiki_tool, save_tool
 
-# Load API key
 load_dotenv()
 
-# Define structured output model
 class ResearchResponse(BaseModel):
     topic: str
     summary: str
     sources: list[str]
     tools_used: list[str]
 
-# Setup Gemini LLM via LangChain wrapper
 llm = ChatGoogleGenerativeAI(
     model="gemini-1.5-flash",
     google_api_key=os.getenv("gemini"),
 )
 
-# Setup output parser
 parser = PydanticOutputParser(pydantic_object=ResearchResponse)
 
-# Tools list
 tools = [search_tool, wiki_tool, save_tool]
 
-# Create prompt
 prompt = ChatPromptTemplate.from_messages([
     ("system", 
-    """You are a research assistant that uses tools and responds in structured JSON format.
+    """You are a research assistant that uses tools and responds in structured
+     JSON format. Do not hallucinate. Do not make up information. Do not make up sources. Do not make up tools.
 Use this format:\n{format_instructions}"""),
     ("human", "{query}"),
     ("placeholder", "{agent_scratchpad}")
